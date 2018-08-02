@@ -60,6 +60,7 @@ RUN set -ex; \
 		gnupg \
 	"; \
 	apt-get update; \
+	apt-get dist-upgrade -y; \
 	apt-get install -y --no-install-recommends \
 		$fetchDeps \
 	; \
