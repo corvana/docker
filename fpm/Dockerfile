@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7-fpm-stretch
 
 LABEL maintainer="pierre@piwik.org"
 
@@ -7,6 +7,7 @@ RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	\
 	apt-get update; \
+	apt-get dist-upgrade -y; \
 	apt-get install -y --no-install-recommends \
 		libfreetype6-dev \
 		libgeoip-dev \
@@ -60,7 +61,6 @@ RUN set -ex; \
 		gnupg \
 	"; \
 	apt-get update; \
-	apt-get dist-upgrade -y; \
 	apt-get install -y --no-install-recommends \
 		$fetchDeps \
 	; \
