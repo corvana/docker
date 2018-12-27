@@ -14,6 +14,7 @@ RUN set -ex; \
 		libjpeg-dev \
 		libldap2-dev \
 		libpng-dev \
+		libzip-dev \
 	; \
 	\
 	debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
