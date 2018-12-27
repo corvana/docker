@@ -71,7 +71,12 @@ RUN set -ex; \
 	curl -fsSL -o piwik.tar.gz.asc \
 		"https://builds.matomo.org/piwik-${MATOMO_VERSION}.tar.gz.asc"; \
 	export GNUPGHOME="$(mktemp -d)"; \
-	gpg --keyserver keys.gnupg.net --recv-keys 814E346FA01A20DBB04B6807B5DBD5925590A237; \
+    ( \
+      (echo "Trying keys.gnupg.net" && gpg --no-tty --keyserver keys.gnupg.net --recv-keys 814E346FA01A20DBB04B6807B5DBD5925590A237) || \
+      (echo "Trying hkp://ipv4.pool.sks-keyservers.net" && gpg --no-tty --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys 814E346FA01A20DBB04B6807B5DBD5925590A237) || \
+      (echo "Trying hkp://p80.pool.sks-keyservers.net:80" && gpg --no-tty --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 814E346FA01A20DBB04B6807B5DBD5925590A237) || \
+      (echo "Trying hkp://pgp.mit.edu:80" && gpg --no-tty --keyserver hkp://pgp.mit.edu:80 --recv-keys 814E346FA01A20DBB04B6807B5DBD5925590A237) \
+    ); \
 	gpg --batch --verify piwik.tar.gz.asc piwik.tar.gz; \
 	gpgconf --kill all; \
 	rm -rf "$GNUPGHOME" piwik.tar.gz.asc; \
